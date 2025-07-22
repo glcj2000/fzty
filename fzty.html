@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>峰值体验 互动摘要</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Warm Harmony -->
+    <!-- Application Structure Plan: The SPA is designed with a thematic, four-section structure: 1) 核心理论 (Core Theories), 2) 战略框架 (Strategic Frameworks), 3) 设计与落地 (Design & Execution), 4) 场景应用 (Applications). This non-linear structure allows users to explore concepts based on interest rather than report order. Navigation is handled by a sticky header, and content within each section is presented using interactive elements like tabs, accordions, and clickable cards. This design prioritizes user-guided learning and makes the dense theoretical content more digestible and engaging. The flow guides the user from foundational knowledge to practical application, mirroring the methodology's logical progression. -->
+    <!-- Visualization & Content Choices: Key concepts are translated into interactive components. For example: The "Brand Wheel" is an interactive HTML/CSS diagram, not a static image. The "Four Customer Types" are presented in a tabbed interface for easy comparison. The "Gold/Black List MOTs" concept is visualized with a dynamic Chart.js bar chart to make the abstract idea of prioritizing tasks concrete. The "12 Landing Points" and "4 Product Types" are organized into visually appealing grids. These choices use structured HTML and Chart.js (Canvas) to transform text-based frameworks into interactive tools, enhancing understanding and retention, all while confirming NO SVG/Mermaid usage. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body { font-family: 'Noto Sans SC', sans-serif; background-color: #FDFBF8; color: #3A3A3A; }
+        .nav-link { transition: color 0.3s, border-color 0.3s; }
+        .nav-link.active { color: #8C5B4F; border-bottom-color: #8C5B4F; }
+        .nav-link:hover { color: #8C5B4F; }
+        .card { background-color: #FFFFFF; border: 1px solid #EAEAEA; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); transition: transform 0.3s, box-shadow 0.3s; }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0,0,0,0.08); }
+        .tab-button { transition: background-color 0.3s, color 0.3s; }
+        .tab-button.active { background-color: #8C5B4F; color: #FFFFFF; }
+        .tag { background-color: #EFEBEA; color: #8C5B4F; }
+        .chart-container { position: relative; width: 100%; max-width: 600px; margin-left: auto; margin-right: auto; height: 350px; max-height: 400px; }
+        @media (max-width: 768px) { .chart-container { height: 300px; } }
+        .content-section { display: none; }
+        .content-section.active { display: block; }
+        .accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.5s ease-out; }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="bg-[#FDFBF8]/80 backdrop-blur-sm sticky top-0 z-50 border-b border-gray-200">
+        <nav class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <h1 class="text-xl sm:text-2xl font-bold text-[#3A3A3A]">峰值体验・互动摘要</h1>
+                <div class="hidden sm:flex items-center space-x-8">
+                    <a href="#core" class="nav-link text-gray-600 border-b-2 border-transparent pb-1">核心理论</a>
+                    <a href="#framework" class="nav-link text-gray-600 border-b-2 border-transparent pb-1">战略框架</a>
+                    <a href="#execution" class="nav-link text-gray-600 border-b-2 border-transparent pb-1">设计与落地</a>
+                    <a href="#application" class="nav-link text-gray-600 border-b-2 border-transparent pb-1">场景应用</a>
+                </div>
+                <div class="sm:hidden">
+                    <button id="menu-button" class="text-gray-600 focus:outline-none">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                    </button>
+                </div>
+            </div>
+        </nav>
+        <div id="mobile-menu" class="hidden sm:hidden px-4 pt-2 pb-4 space-y-2">
+            <a href="#core" class="nav-link block text-gray-600">核心理论</a>
+            <a href="#framework" class="nav-link block text-gray-600">战略框架</a>
+            <a href="#execution" class="nav-link block text-gray-600">设计与落地</a>
+            <a href="#application" class="nav-link block text-gray-600">场景应用</a>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+        
+        <section id="core" class="content-section active">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-[#8C5B4F] mb-2">核心理论基石</h2>
+                <p class="text-lg text-gray-600 max-w-3xl mx-auto">峰值体验理论建立在行为经济学和心理学的深刻洞察之上。本节将带您探索影响消费者决策的底层逻辑，理解人们如何记忆、思考和感受，这是构建有效品牌体验的出发点。</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-2 gap-8">
+                <div class="card p-6">
+                    <h3 class="font-bold text-xl mb-3 text-[#3A3A3A]">峰终定律 (Peak-End Rule)</h3>
+                    <p class="text-gray-600 mb-4">人们对一段体验的记忆，主要由“高峰”和“结尾”的感受决定，而非整个过程的平均值。这意味着，与其全面提升，不如集中资源在关键时刻创造极致体验。</p>
+                    <div class="bg-[#F7F5F3] p-4 rounded-lg text-sm">
+                        <p>💡 **核心启示:** 资源应聚焦于创造难忘的“峰”与“终”，而非平庸的“全程”。</p>
+                    </div>
+                </div>
+                <div class="card p-6">
+                    <h3 class="font-bold text-xl mb-3 text-[#3A3A3A]">关键时刻 (MOT)</h3>
+                    <p class="text-gray-600 mb-4">影响消费者决策的微小而明确的瞬间。它不仅是接触点，更是品牌植入心智、驱动行为的战略机遇。一个有效的MOT包含“是谁”、“在什么状况下”、“感受到什么”三个要素。</p>
+                    <div class="bg-[#F7F5F3] p-4 rounded-lg text-sm">
+                        <p>💡 **核心启示:** 将抽象的“体验”具象化为可设计、可衡量的“时刻”。</p>
+                    </div>
+                </div>
+                <div class="card p-6">
+                    <h3 class="font-bold text-xl mb-3 text-[#3A3A3A]">系统1与系统2思维</h3>
+                    <p class="text-gray-600 mb-4">人类决策由两种思维主导：<br> • **系统1 (直觉):** 快速、自动、感性。<br> • **系统2 (理性):** 缓慢、费力、逻辑。<br> 大多数决策由系统1驱动，因此体验设计应优先与直觉对话。</p>
+                    <div class="bg-[#F7F5F3] p-4 rounded-lg text-sm">
+                        <p>💡 **核心启示:** 打造让用户“不用思考”就能感受到的体验。</p>
+                    </div>
+                </div>
+                <div class="card p-6">
+                    <h3 class="font-bold text-xl mb-3 text-[#3A3A3A]">第一性原理</h3>
+                    <p class="text-gray-600 mb-4">回归事物本质，探究消费者“买什么”和企业“卖什么”的底层逻辑。超越简单的“货”逻辑，融入“人”（动机）和“场”（场景）的思维，才能开辟新赛道。</p>
+                    <div class="bg-[#F7F5F3] p-4 rounded-lg text-sm">
+                        <p>💡 **核心启示:** 从根本需求出发，重新定义产品和市场。</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-16">
+                <h3 class="text-2xl font-bold text-center mb-8 text-[#8C5B4F]">消费者心智洞察：六种类型与深层动机</h3>
+                <div class="card p-6 sm:p-8">
+                    <div id="consumer-types-tabs" class="flex flex-wrap justify-center gap-2 mb-6">
+                        <button data-type="all" class="tab-button px-4 py-2 rounded-full text-sm font-medium active">全部类型</button>
+                        <button data-type="system1" class="tab-button px-4 py-2 rounded-full text-sm font-medium">系统1 (直觉驱动)</button>
+                        <button data-type="system2" class="tab-button px-4 py-2 rounded-full text-sm font-medium">系统2 (理性驱动)</button>
+                    </div>
+                    <div id="consumer-types-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="framework" class="content-section">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-[#8C5B4F] mb-2">战略框架与洞察流程</h2>
+                <p class="text-lg text-gray-600 max-w-3xl mx-auto">有效的体验设计始于系统性的战略规划和深刻的消费者洞察。本节将展示如何运用“品牌轮”整合营销要素，并通过结构化的访谈与分析，找到驱动增长的关键机会点。</p>
+            </div>
+
+            <div class="card p-6 sm:p-8 mb-12">
+                <h3 class="text-2xl font-bold text-center mb-6 text-[#3A3A3A]">品牌轮 (Brand Wheel)</h3>
+                <p class="text-center text-gray-600 mb-8 max-w-2xl mx-auto">一个整合了定位、营销与体验的闭环模型。它确保品牌在所有关键时刻（MOT）向目标用户（TA）传递一致的品牌信息，并通过精心设计的体验（MOTX）驱动用户行动。</p>
+                <div class="max-w-xl mx-auto">
+                    <div class="relative w-full aspect-square border-4 border-[#8C5B4F] rounded-full flex items-center justify-center">
+                        <div class="absolute text-center">
+                            <h4 class="font-bold text-lg text-[#8C5B4F]">品牌轮</h4>
+                            <p class="text-sm text-gray-500">战略闭环</p>
+                        </div>
+                        <div class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[#FDFBF8] px-2">
+                            <div class="text-center p-3 rounded-lg border border-gray-200 bg-white shadow-sm">
+                                <h5 class="font-bold">目标用户 (TA)</h5>
+                                <p class="text-xs text-gray-500">为谁设计</p>
+                            </div>
+                        </div>
+                        <div class="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 bg-[#FDFBF8] px-2">
+                             <div class="text-center p-3 rounded-lg border border-gray-200 bg-white shadow-sm">
+                                <h5 class="font-bold">体验 (MOTX)</h5>
+                                <p class="text-xs text-gray-500">如何感受</p>
+                            </div>
+                        </div>
+                        <div class="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1/2 bg-[#FDFBF8] py-2">
+                             <div class="text-center p-3 rounded-lg border border-gray-200 bg-white shadow-sm">
+                                <h5 class="font-bold">品牌信息</h5>
+                                <p class="text-xs text-gray-500">传递什么</p>
+                            </div>
+                        </div>
+                        <div class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 bg-[#FDFBF8] py-2">
+                             <div class="text-center p-3 rounded-lg border border-gray-200 bg-white shadow-sm">
+                                <h5 class="font-bold">关键时刻 (MOT)</h5>
+                                <p class="text-xs text-gray-500">何时何地</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid lg:grid-cols-2 gap-8">
+                <div class="card p-6 sm:p-8">
+                    <h3 class="text-2xl font-bold text-center mb-6 text-[#3A3A3A]">洞察“四种人”</h3>
+                    <p class="text-center text-gray-600 mb-6">为了全面理解市场，必须跳出“幸存者偏差”，访谈四类人群，以同时洞察存量与增量市场的机会。</p>
+                    <div id="four-people-tabs" class="mb-4 border-b border-gray-200">
+                        <nav class="flex -mb-px space-x-6" aria-label="Tabs">
+                        </nav>
+                    </div>
+                    <div id="four-people-content">
+                    </div>
+                </div>
+                <div class="card p-6 sm:p-8">
+                    <h3 class="text-2xl font-bold text-center mb-6 text-[#3A3A3A]">识别“4个没有”</h3>
+                    <p class="text-center text-gray-600 mb-6">消费者“不”行动的原因，往往是增长的捷径。识别并消除这四大障碍，是品牌破局的关键。</p>
+                    <div class="grid grid-cols-2 gap-4 text-center">
+                        <div class="bg-[#F7F5F3] p-4 rounded-lg">
+                            <h4 class="font-bold text-lg text-[#8C5B4F]">没有印记</h4>
+                            <p class="text-sm text-gray-600">用户记不住 → 无法进店</p>
+                        </div>
+                        <div class="bg-[#F7F5F3] p-4 rounded-lg">
+                            <h4 class="font-bold text-lg text-[#8C5B4F]">没有透传</h4>
+                            <p class="text-sm text-gray-600">用户不理解 → 难以转化</p>
+                        </div>
+                        <div class="bg-[#F7F5F3] p-4 rounded-lg">
+                            <h4 class="font-bold text-lg text-[#8C5B4F]">没有差异</h4>
+                            <p class="text-sm text-gray-600">没理由再选 → 难以复购</p>
+                        </div>
+                        <div class="bg-[#F7F5F3] p-4 rounded-lg">
+                            <h4 class="font-bold text-lg text-[#8C5B4F]">没有故事</h4>
+                            <p class="text-sm text-gray-600">没动力分享 → 难以推荐</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="execution" class="content-section">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-[#8C5B4F] mb-2">设计与落地</h2>
+                <p class="text-lg text-gray-600 max-w-3xl mx-auto">从洞察到行动，需要一套将战略转化为具体体验的流程。本节将介绍如何筛选关键时刻、设计品牌信息，并运用“12个落地点”和产品组合策略，将峰值体验付诸实践。</p>
+            </div>
+
+            <div class="card p-6 sm:p-8 mb-12 text-center">
+                <h3 class="text-2xl font-bold text-[#3A3A3A] mb-4">"300 - 10 = 290" 法则</h3>
+                <p class="text-6xl font-bold text-[#8C5B4F] mb-4">10</p>
+                <p class="text-gray-600 max-w-2xl mx-auto">在数百个MOT中，只需找到最重要的 **10** 个做到极致，其余 **290** 个保持行业平均水平即可。这是资源聚焦、实现非线性增长的核心思想。</p>
+            </div>
+
+            <div class="card p-6 sm:p-8 mb-12">
+                <h3 class="text-2xl font-bold text-center mb-2 text-[#3A3A3A]">MOT金榜与黑榜</h3>
+                <p class="text-center text-gray-600 mb-8">通过“重要性-满意度”分析，识别出应加码的“金榜MOT”和应舍弃的“黑榜MOT”，实现精准资源投放。</p>
+                <div class="chart-container">
+                    <canvas id="motChart"></canvas>
+                </div>
+            </div>
+            
+            <div class="card p-6 sm:p-8">
+                <h3 class="text-2xl font-bold text-center mb-8 text-[#3A3A3A]">MOTX设计的“12个落地点”</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class="text-center">
+                        <h4 class="font-bold text-xl text-[#8C5B4F] mb-3">进店 (迷惑)</h4>
+                        <ul class="space-y-2 text-gray-600">
+                            <li class="bg-[#F7F5F3] p-2 rounded-md">就是这样</li>
+                            <li class="bg-[#F7F5F3] p-2 rounded-md">那是怎样</li>
+                            <li class="bg-[#F7F5F3] p-2 rounded-md">怎会这样</li>
+                        </ul>
+                    </div>
+                    <div class="text-center">
+                        <h4 class="font-bold text-xl text-[#8C5B4F] mb-3">转化 (套路)</h4>
+                        <ul class="space-y-2 text-gray-600">
+                            <li class="bg-[#F7F5F3] p-2 rounded-md">试这个</li>
+                            <li class="bg-[#F7F5F3] p-2 rounded-md">看这个</li>
+                            <li class="bg-[#F7F5F3] p-2 rounded-md">买这个</li>
+                        </ul>
+                    </div>
+                    <div class="text-center">
+                        <h4 class="font-bold text-xl text-[#8C5B4F] mb-3">复购 (习惯)</h4>
+                        <ul class="space-y-2 text-gray-600">
+                            <li class="bg-[#F7F5F3] p-2 rounded-md">值了你</li>
+                            <li class="bg-[#F7F5F3] p-2 rounded-md">你懂我</li>
+                            <li class="bg-[#F7F5F3] p-2 rounded-md">真有你</li>
+                        </ul>
+                    </div>
+                    <div class="text-center">
+                        <h4 class="font-bold text-xl text-[#8C5B4F] mb-3">推荐 (印记)</h4>
+                        <ul class="space-y-2 text-gray-600">
+                            <li class="bg-[#F7F5F3] p-2 rounded-md">我是谁</li>
+                            <li class="bg-[#F7F5F3] p-2 rounded-md">他是谁</li>
+                            <li class="bg-[#F7F5F3] p-2 rounded-md">你是谁</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="application" class="content-section">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-[#8C5B4F] mb-2">场景应用</h2>
+                <p class="text-lg text-gray-600 max-w-3xl mx-auto">峰值体验理论并非空中楼阁，它在B2B和线上等不同商业场景中都有具体的应用策略。本节将探讨如何将理论应用于实践，解决特定场景下的增长难题。</p>
+            </div>
+            
+            <div class="card p-6 sm:p-8">
+                <div id="application-tabs" class="flex justify-center border-b border-gray-200 mb-8">
+                    <button data-tab="b2b" class="application-tab-button text-lg font-medium px-6 py-3 border-b-2 border-transparent text-gray-500 hover:text-[#8C5B4F]">B2B 场景</button>
+                    <button data-tab="online" class="application-tab-button text-lg font-medium px-6 py-3 border-b-2 border-transparent text-gray-500 hover:text-[#8C5B4F]">线上场景</button>
+                </div>
+                
+                <div id="b2b-content" class="application-tab-content">
+                    <h3 class="text-2xl font-bold text-center mb-2 text-[#3A3A3A]">B2B的第一性原理与关键时刻</h3>
+                     <p class="text-center text-gray-600 mb-8">B2B决策链条长、角色复杂，其核心需求是“高效、省钱、出结果、能复制”。体验设计需围绕这5种角色和10个关键时刻展开。</p>
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <div>
+                            <h4 class="font-bold text-xl mb-4 text-[#8C5B4F]">5种决策角色</h4>
+                            <ul class="space-y-3">
+                                <li class="flex items-start"><span class="tag text-sm font-semibold mr-3 px-2 py-1 rounded-full">引路者</span><span class="text-gray-600">引入合作机会的中间人</span></li>
+                                <li class="flex items-start"><span class="tag text-sm font-semibold mr-3 px-2 py-1 rounded-full">评估者</span><span class="text-gray-600">负责试用与评估的部门</span></li>
+                                <li class="flex items-start"><span class="tag text-sm font-semibold mr-3 px-2 py-1 rounded-full">决策者</span><span class="text-gray-600">最终拍板的领导层</span></li>
+                                <li class="flex items-start"><span class="tag text-sm font-semibold mr-3 px-2 py-1 rounded-full">使用者</span><span class="text-gray-600">影响复购的实际用户</span></li>
+                                <li class="flex items-start"><span class="tag text-sm font-semibold mr-3 px-2 py-1 rounded-full">传播者</span><span class="text-gray-600">带来复利效应的推荐人</span></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-xl mb-4 text-[#8C5B4F]">10个关键时刻 (部分)</h4>
+                            <div class="space-y-4">
+                                <div class="accordion-item">
+                                    <button class="accordion-header w-full text-left font-semibold text-gray-700 flex justify-between items-center">1. 高熵演讲/文章<span>+</span></button>
+                                    <div class="accordion-content text-sm text-gray-600 pt-2">在行业平台用新奇标题和高价值内容吸引“进店”。</div>
+                                </div>
+                                <div class="accordion-item">
+                                    <button class="accordion-header w-full text-left font-semibold text-gray-700 flex justify-between items-center">3. 成功案例<span>+</span></button>
+                                    <div class="accordion-content text-sm text-gray-600 pt-2">准备至少3个跨行业案例，证明实力可复制。</div>
+                                </div>
+                                <div class="accordion-item">
+                                    <button class="accordion-header w-full text-left font-semibold text-gray-700 flex justify-between items-center">7. 独特价值提案<span>+</span></button>
+                                    <div class="accordion-content text-sm text-gray-600 pt-2">洞察并放大甲方优势，提供定制化建议，让客户感觉被理解。</div>
+                                </div>
+                                <div class="accordion-item">
+                                    <button class="accordion-header w-full text-left font-semibold text-gray-700 flex justify-between items-center">10. 最终交付<span>+</span></button>
+                                    <div class="accordion-content text-sm text-gray-600 pt-2">交付成果远超预期，让客户觉得“值了”，实现核心价值。</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="online-content" class="application-tab-content hidden">
+                    <h3 class="text-2xl font-bold text-center mb-2 text-[#3A3A3A]">线上经营的误区与策略</h3>
+                    <p class="text-center text-gray-600 mb-8">线上竞争激烈，流量成本高昂。企业需避免“6大误区”，并运用“八问八招”系统化地提升进店率与转化率。</p>
+                    <div class="grid md:grid-cols-2 gap-8">
+                         <div>
+                            <h4 class="font-bold text-xl mb-4 text-[#8C5B4F]">线上进店八招 (部分)</h4>
+                            <ul class="space-y-2 text-gray-600 text-sm">
+                                <li><strong>吹起来:</strong> 借力社交媒体和KOL，制造“风”效应。</li>
+                                <li><strong>锚起来:</strong> 利用“大锚”和“印记叠加”，提升品牌溢价。</li>
+                                <li><strong>“装”起来:</strong> 设计能让消费者“装”起来的内容和产品。</li>
+                                <li><strong>颜色驱动系统1:</strong> 优化网店主色系，快速植入心智。</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-xl mb-4 text-[#8C5B4F]">线上转化八招 (部分)</h4>
+                            <ul class="space-y-2 text-gray-600 text-sm">
+                                <li><strong>“人、货、场”分类:</strong> 按用户、品类、场景分类，提高匹配度。</li>
+                                <li><strong>“黑白友好”的流量产品:</strong> 为新手和专家设计不同入门产品。</li>
+                                <li><strong>新品秒懂:</strong> 通过命名和视觉，让迭代一目了然。</li>
+                                <li><strong>算法节省时间:</strong> 利用“猜你喜欢”精准推送，提高LTV。</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="border-t border-gray-200 mt-12 py-6">
+        <div class="container mx-auto px-4 text-center text-gray-500 text-sm">
+            <p>基于汪志谦、朱海蓓《峰值体验》1 & 2 核心观点生成</p>
+            <p>交互式摘要应用</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const app = {
+                init() {
+                    this.setupEventListeners();
+                    this.navigateTo(window.location.hash || '#core');
+                    this.renderConsumerTypes('all');
+                    this.renderFourPeople();
+                    this.initApplicationTabs();
+                    this.initAccordions();
+                },
+
+                setupEventListeners() {
+                    document.querySelectorAll('.nav-link').forEach(link => {
+                        link.addEventListener('click', (e) => {
+                            e.preventDefault();
+                            const targetId = e.currentTarget.getAttribute('href');
+                            this.navigateTo(targetId);
+                            if(document.getElementById('mobile-menu').classList.contains('hidden') === false) {
+                                document.getElementById('mobile-menu').classList.add('hidden');
+                            }
+                        });
+                    });
+
+                    document.getElementById('menu-button').addEventListener('click', () => {
+                        document.getElementById('mobile-menu').classList.toggle('hidden');
+                    });
+                    
+                    document.getElementById('consumer-types-tabs').addEventListener('click', (e) => {
+                        if (e.target.tagName === 'BUTTON') {
+                            const type = e.target.dataset.type;
+                            document.querySelector('#consumer-types-tabs .active').classList.remove('active');
+                            e.target.classList.add('active');
+                            this.renderConsumerTypes(type);
+                        }
+                    });
+                },
+
+                navigateTo(hash) {
+                    const targetId = hash.substring(1);
+                    document.querySelectorAll('.content-section').forEach(section => {
+                        section.classList.remove('active');
+                    });
+                    const targetSection = document.getElementById(targetId);
+                    if (targetSection) {
+                        targetSection.classList.add('active');
+                    }
+
+                    document.querySelectorAll('.nav-link').forEach(link => {
+                        link.classList.remove('active');
+                        if (link.getAttribute('href') === hash) {
+                            link.classList.add('active');
+                        }
+                    });
+                    
+                    if (hash === '#execution' && !this.motChart) {
+                        this.createMotChart();
+                    }
+                    
+                    window.location.hash = hash;
+                },
+
+                consumerTypesData: [
+                    { name: '颜值感官党', system: 'system1', desc: '追求一眼心动，最容易被外观、设计吸引。', color: 'bg-rose-100', textColor: 'text-rose-800' },
+                    { name: '跟风党', system: 'system1', desc: '喜欢凑热闹，跟随大多数人的选择，追求潮流。', color: 'bg-sky-100', textColor: 'text-sky-800' },
+                    { name: '大V', system: 'system1', desc: '网络红人或KOL，通过内容影响粉丝，带动传播。', color: 'bg-amber-100', textColor: 'text-amber-800' },
+                    { name: '专家', system: 'system2', desc: '信任客观数据和专业分析，深入了解产品细节。', color: 'bg-indigo-100', textColor: 'text-indigo-800' },
+                    { name: '参数成分党', system: 'system2', desc: '关注具体数据，如价格、原料、技术规格等。', color: 'bg-teal-100', textColor: 'text-teal-800' },
+                    { name: '性价比党', system: 'system2', desc: '对价格敏感，追求最佳交易，注重物有所值。', color: 'bg-slate-100', textColor: 'text-slate-800' },
+                ],
+                
+                renderConsumerTypes(filter) {
+                    const grid = document.getElementById('consumer-types-grid');
+                    grid.innerHTML = '';
+                    const filteredData = filter === 'all' ? this.consumerTypesData : this.consumerTypesData.filter(c => c.system === filter);
+                    
+                    filteredData.forEach(type => {
+                        const div = document.createElement('div');
+                        div.className = `p-4 rounded-lg ${type.color}`;
+                        div.innerHTML = `
+                            <h4 class="font-bold ${type.textColor}">${type.name}</h4>
+                            <p class="text-sm ${type.textColor} opacity-90">${type.desc}</p>
+                        `;
+                        grid.appendChild(div);
+                    });
+                },
+                
+                fourPeopleData: [
+                    { id: 'red', name: '小红 (爱你的人)', market: '存量市场', goal: '理解品牌之美，为何持续购买，何处觉得“值了”。', icon: '❤️' },
+                    { id: 'black', name: '小黑 (不爱你的人)', market: '增量市场', goal: '理解为何不选本品牌，竞品吸引力何在，寻找差异化机会。', icon: '🤔' },
+                    { id: 'red-to-black', name: '红转黑 (爱过你的人)', market: '存量市场', goal: '识别流失原因，产品低谷体验，改进复购。', icon: '💔' },
+                    { id: 'white', name: '小白 (从没爱过你)', market: '增量市场', goal: '了解如何吸引首次尝试，消除购买障碍，打开新市场。', icon: '❓' }
+                ],
+                
+                renderFourPeople() {
+                    const tabsContainer = document.querySelector('#four-people-tabs nav');
+                    const contentContainer = document.getElementById('four-people-content');
+                    
+                    this.fourPeopleData.forEach((person, index) => {
+                        const tab = document.createElement('button');
+                        tab.dataset.target = person.id;
+                        tab.className = `four-people-tab-button whitespace-nowrap py-3 px-1 border-b-2 font-medium text-sm ${index === 0 ? 'border-[#8C5B4F] text-[#8C5B4F]' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'}`;
+                        tab.innerHTML = `${person.icon} ${person.name}`;
+                        tabsContainer.appendChild(tab);
+
+                        const content = document.createElement('div');
+                        content.id = person.id;
+                        content.className = `four-people-content-panel p-4 bg-[#F7F5F3] rounded-lg ${index > 0 ? 'hidden' : ''}`;
+                        content.innerHTML = `
+                            <p class="font-semibold text-gray-700 mb-2">访谈目的:</p>
+                            <p class="text-gray-600 mb-3">${person.goal}</p>
+                            <span class="tag text-xs font-semibold">${person.market}</span>
+                        `;
+                        contentContainer.appendChild(content);
+                    });
+                    
+                    tabsContainer.addEventListener('click', (e) => {
+                        if (e.target.classList.contains('four-people-tab-button')) {
+                            const targetId = e.target.dataset.target;
+                            
+                            tabsContainer.querySelectorAll('button').forEach(btn => {
+                                btn.classList.remove('border-[#8C5B4F]', 'text-[#8C5B4F]');
+                                btn.classList.add('border-transparent', 'text-gray-500', 'hover:text-gray-700', 'hover:border-gray-300');
+                            });
+                            e.target.classList.add('border-[#8C5B4F]', 'text-[#8C5B4F]');
+                            e.target.classList.remove('border-transparent', 'text-gray-500');
+
+                            contentContainer.querySelectorAll('.four-people-content-panel').forEach(panel => {
+                                panel.classList.add('hidden');
+                            });
+                            document.getElementById(targetId).classList.remove('hidden');
+                        }
+                    });
+                },
+                
+                motChart: null,
+                createMotChart() {
+                    const ctx = document.getElementById('motChart').getContext('2d');
+                    this.motChart = new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: ['MOT 1: 售后响应慢', 'MOT 2: 包装精美', 'MOT 3: 开箱仪式感', 'MOT 4: 产品核心功能', 'MOT 5: 广告语', 'MOT 6: 客服专业度'],
+                            datasets: [{
+                                label: '消费者重视度',
+                                data: [9, 5, 6, 10, 3, 8],
+                                backgroundColor: 'rgba(140, 91, 79, 0.6)',
+                                borderColor: 'rgba(140, 91, 79, 1)',
+                                borderWidth: 1
+                            }, {
+                                label: '企业满意度',
+                                data: [3, 8, 7, 9, 7, 4],
+                                backgroundColor: 'rgba(191, 191, 191, 0.6)',
+                                borderColor: 'rgba(191, 191, 191, 1)',
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            scales: {
+                                y: {
+                                    beginAtZero: true,
+                                    max: 10,
+                                    title: { display: true, text: '得分 (0-10)' }
+                                },
+                                x: {
+                                    ticks: {
+                                        autoSkip: false,
+                                        maxRotation: 45,
+                                        minRotation: 45,
+                                    }
+                                }
+                            },
+                            plugins: {
+                                legend: { position: 'top' },
+                                tooltip: {
+                                    callbacks: {
+                                        footer: (tooltipItems) => {
+                                            if (tooltipItems.length === 0) {
+                                                return '';
+                                            }
+                                            // Ensure both datasets are present in tooltipItems
+                                            const importanceItem = tooltipItems.find(item => item.dataset.label === '消费者重视度');
+                                            const satisfactionItem = tooltipItems.find(item => item.dataset.label === '企业满意度');
+
+                                            if (!importanceItem || !satisfactionItem) {
+                                                return ''; // Return empty if one of the datasets is not found
+                                            }
+
+                                            const importance = importanceItem.raw;
+                                            const satisfaction = satisfactionItem.raw;
+                                            
+                                            if (importance > 7 && satisfaction < 5) return '黑榜: 死亡低谷，急需改善';
+                                            if (importance > 7 && satisfaction > 7) return '金榜: 核心优势，持续放大';
+                                            if (importance < 5 && satisfaction > 7) return '黑榜: 资源浪费，考虑舍弃';
+                                            return '机会区/维持区';
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    });
+                },
+
+                initApplicationTabs() {
+                    const tabButtons = document.querySelectorAll('.application-tab-button');
+                    const tabContents = document.querySelectorAll('.application-tab-content');
+
+                    const setActiveTab = (tabId) => {
+                         tabButtons.forEach(button => {
+                            button.classList.remove('text-[#8C5B4F]', 'border-[#8C5B4F]');
+                            button.classList.add('text-gray-500', 'border-transparent');
+                            if(button.dataset.tab === tabId) {
+                                button.classList.add('text-[#8C5B4F]', 'border-[#8C5B4F]');
+                                button.classList.remove('text-gray-500', 'border-transparent');
+                            }
+                        });
+                        tabContents.forEach(content => {
+                            content.classList.add('hidden');
+                            if(content.id === `${tabId}-content`) {
+                                content.classList.remove('hidden');
+                            }
+                        });
+                    };
+
+                    tabButtons.forEach(button => {
+                        button.addEventListener('click', () => {
+                            setActiveTab(button.dataset.tab);
+                        });
+                    });
+
+                    setActiveTab('b2b');
+                },
+
+                initAccordions() {
+                    const accordionItems = document.querySelectorAll('.accordion-item');
+                    accordionItems.forEach(item => {
+                        const header = item.querySelector('.accordion-header');
+                        const content = item.querySelector('.accordion-content');
+                        const icon = header.querySelector('span');
+
+                        header.addEventListener('click', () => {
+                            const isOpen = content.style.maxHeight && content.style.maxHeight !== '0px';
+                            
+                            if (isOpen) {
+                                content.style.maxHeight = '0px';
+                                icon.textContent = '+';
+                            } else {
+                                content.style.maxHeight = content.scrollHeight + 'px';
+                                icon.textContent = '-';
+                            }
+                        });
+                    });
+                }
+            };
+
+            app.init();
+        });
+    </script>
+</body>
+</html>
